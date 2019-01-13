@@ -15,7 +15,7 @@
     "client": "webpack-dev-server --https --mode development --devtool inline-source-map --hot",
     "watch": "concurrently \"yarn server\" \"yarn client\"",
     "build:prod": "yarn clean:built-files && ./node_modules/.bin/webpack --config webpack.config.js --env prod",
-    "bundle-report": "webpack-bundle-analyzer --port 4200 dist/stats.json",
+    "bundle-report": "webpack --profile --json > dist/stats.json && webpack-bundle-analyzer --port 4200 dist/stats.json",
     "clean": "rm -rf dist/* && yarn run prepcerts",
     "clean:built-files": "find dist/* ! -name 'key.pem' ! -name 'cert.pem' -type f -exec rm -f {} +",
     "test": "jest",
