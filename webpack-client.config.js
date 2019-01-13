@@ -21,7 +21,7 @@ module.exports = function(env) {
     output: {
       filename: '[name]-[hash].js',
       publicPath: '/',
-      path: path.resolve(__dirname, 'dist'),
+      path: path.resolve(__dirname, 'dist/client'),
     },
     module: moduleConfig(...arguments),
     plugins: plugins(...arguments),

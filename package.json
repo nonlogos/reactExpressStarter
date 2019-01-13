@@ -11,10 +11,13 @@
     "node": ">=6.11.5"
   },
   "scripts": {
-    "server": "./node_modules/.bin/nodemon --exec ./node_modules/.bin/babel-node ./server/index.js",
-    "client": "webpack-dev-server --https --mode development --devtool inline-source-map --hot",
+    "server": "./node_modules/.bin/nodemon --exec ./node_modules/.bin/babel-node ./server/index.js --env dev",
+    "client": "webpack-dev-server --config webpack-client.config.js --https --mode development --devtool inline-source-map --hot",
     "watch": "concurrently \"yarn server\" \"yarn client\"",
-    "build:prod": "yarn clean:built-files && ./node_modules/.bin/webpack --config webpack.config.js --env prod",
+    "build:server": "./node_modules/.bin/webpack --config webpack-server.config.js --env prod",
+    "build:client": "./node_modules/.bin/webpack --config webpack-client.config.js --env prod",
+    "build:prod": "yarn clean:built-files && yarn build:server && yarn build:client",
+    "serve": "node dist/server/bundle.js",
     "bundle-report": "webpack --profile --json > dist/stats.json && webpack-bundle-analyzer --port 4200 dist/stats.json",
     "clean": "rm -rf dist/* && yarn run prepcerts",
     "clean:built-files": "find dist/* ! -name 'key.pem' ! -name 'cert.pem' -type f -exec rm -f {} +",
@@ -79,6 +82,7 @@
     "webpack-dev-server": "^3.1.14",
     "webpack-hot-middleware": "^2.24.3",
     "webpack-manifest-plugin": "^2.0.4",
+    "webpack-node-externals": "^1.7.2",
     "worker-loader": "^2.0.0"
   }
 }

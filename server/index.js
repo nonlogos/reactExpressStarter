@@ -7,6 +7,8 @@ import chalk from 'chalk';
 
 import handleTLS from './utils/handleTLS';
 
+const devMode = process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'prod';
+
 const HTTP_BASE_ADDRESS = 3100;
 const HTTP_REDIRECT_ADDRESS = 3001;
 const HTTPS_ADDRESS = 3443;
@@ -66,18 +68,20 @@ server.get('/api', (req, res, next) => {
   return next();
 });
 
+const assetsPath = devMode ? path.join(__dirname, '..', 'dist', 'assets') : path.join(__dirname, '..', 'assets');
+const htmlPath = devMode ? path.join(__dirname, '..', 'client') : path.join(__dirname, '..', 'client');
 // serve static images
 server.get(
   '/images',
   restify.plugins.serveStatic({
-    directory: path.join(__dirname, '..', 'dist', 'images'),
+    directory: assetsPath,
   })
 );
 
 server.get(
   '*',
   restify.plugins.serveStatic({
-    directory: path.join(__dirname, '..', 'dist'),
+    directory: htmlPath,
     default: 'index.html',
   })
 );
